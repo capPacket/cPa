@@ -1,5 +1,7 @@
 package model;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import jpcap.packet.*;
 
 public class MyUDPPacket {
@@ -41,6 +43,18 @@ public class MyUDPPacket {
 	public String toString() {
 		return "MyUDPPacket [dstPort=" + dstPort + ", srcPort=" + srcPort
 				+ ", udpLength=" + udpLength + "]";
+	}
+	public DefaultMutableTreeNode showDetail(MyPacket myPacket){
+		MyUDPPacket udp=myPacket.getMyUDPPacket();
+		if(udp==null){
+			return null;
+		}
+		DefaultMutableTreeNode udpTree = new DefaultMutableTreeNode("User Datagram Protocol, Src Port "+
+	udp.getSrcPort()+", Dst Port: "+udp.getDstPort());
+		udpTree.add(new DefaultMutableTreeNode("Src Port: "+udp.getSrcPort()));
+		udpTree.add(new DefaultMutableTreeNode("Dst Port: "+udp.getDstPort()));
+		udpTree.add(new DefaultMutableTreeNode("Length: "+udp.getUdpLength()));
+		return udpTree;
 	}
 
 	public int getDstPort() {

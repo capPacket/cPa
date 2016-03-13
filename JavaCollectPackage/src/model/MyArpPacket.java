@@ -1,5 +1,7 @@
 package model;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import jpcap.packet.ARPPacket;
 import jpcap.packet.Packet;
 
@@ -80,6 +82,22 @@ public class MyArpPacket {
 				+ tarProAddress + "]";
 	}
 
+	public DefaultMutableTreeNode showDetail(MyPacket myPacket){
+		MyArpPacket arp=myPacket.getMyArpPacket();
+		if(arp==null){
+			return null;
+		}
+		DefaultMutableTreeNode arpTree = new DefaultMutableTreeNode("Address Resolution Protocol ( "+
+	arp.getOpration()+" ARP ) ");
+		arpTree.add(new DefaultMutableTreeNode("Hardware Type: "+arp.getHardwareType()));
+		arpTree.add(new DefaultMutableTreeNode("Protocol Type: "+arp.getProtocolType()));
+		arpTree.add(new DefaultMutableTreeNode("Opcode: "+arp.getOpration()));
+		arpTree.add(new DefaultMutableTreeNode("Sender MAC address: "+arp.getSenMACAddress()));
+		arpTree.add(new DefaultMutableTreeNode("Sender IP address: "+arp.getSenProAddress()));
+		arpTree.add(new DefaultMutableTreeNode("Target MAC address: "+arp.getTarMACAddress()));
+		arpTree.add(new DefaultMutableTreeNode("Target IP address: "+arp.getTarProAddress()));
+		return arpTree;
+	}
 
 	public String getHardwareType() {
 		return hardwareType;

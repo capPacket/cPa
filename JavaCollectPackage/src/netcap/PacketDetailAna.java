@@ -14,10 +14,10 @@ public class PacketDetailAna {
 	MyTCPPacket myTCPPacket=new MyTCPPacket();
 	MyUDPPacket myUDPPacket=new MyUDPPacket();
 
-	public void analyzePacket(Packet p,int index){
+	public MyPacket analyzePacket(Packet p,int index){
 		if(myPacketList.containsKey(index)){
 			System.out.println("已经分析过咯");
-			return ;
+			return myPacketList.get(index);
 		}
 		
 		MyPacket myPacket=new MyPacket(p);
@@ -49,6 +49,7 @@ public class PacketDetailAna {
 			}
 		}
 		myPacketList.put(index, myPacket);
+		return myPacket;
 	}
 		
 	

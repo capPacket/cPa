@@ -1,5 +1,7 @@
 package model;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import jpcap.packet.Packet;
 import jpcap.packet.TCPPacket;
 
@@ -70,7 +72,24 @@ public class MyTCPPacket {
 				+ ", urgentPoint=" + urgentPoint + "]";
 	}
 
-
+	public DefaultMutableTreeNode showDetail(MyPacket myPacket){
+		MyTCPPacket tcp=myPacket.getMyTCPPacket();
+		if(tcp==null){
+			return null;
+		}
+		DefaultMutableTreeNode tcpTree = new DefaultMutableTreeNode("Transmission Control Protocol, Src Port: "
+		+tcp.getSrcPort()+", Dst Port: "+tcp.getDstPort()+", Seq: "+tcp.getSequence());
+		tcpTree.add(new DefaultMutableTreeNode("Source Port: "+tcp.getSrcPort()));
+		tcpTree.add(new DefaultMutableTreeNode("Destination Port: "+tcp.getDstPort()));
+		tcpTree.add(new DefaultMutableTreeNode("Sequence number: "+tcp.getSequence()));
+		tcpTree.add(new DefaultMutableTreeNode("Acknowledgment number: "+tcp.getAckNum()));
+		tcpTree.add(new DefaultMutableTreeNode("Window size value: "+tcp.getWindowSize()));
+		tcpTree.add(new DefaultMutableTreeNode("urgent pointer: "+tcp.getUrgentPoint()));
+		tcpTree.add(new DefaultMutableTreeNode(tcp.isAck+"(ACK)"));
+		tcpTree.add(new DefaultMutableTreeNode(tcp.isFin+"(FIN)"));
+		tcpTree.add(new DefaultMutableTreeNode(tcp.isSyn+"(SYN)"));
+		return tcpTree;
+	}
 	public boolean isAck() {
 		return isAck;
 	}
@@ -108,6 +127,26 @@ public class MyTCPPacket {
 
 	public void setFin(boolean isFin) {
 		this.isFin = isFin;
+	}
+
+
+	public boolean isUrgent() {
+		return isUrgent;
+	}
+
+
+	public void setUrgent(boolean isUrgent) {
+		this.isUrgent = isUrgent;
+	}
+
+
+	public int getUrgentPoint() {
+		return urgentPoint;
+	}
+
+
+	public void setUrgentPoint(int urgentPoint) {
+		this.urgentPoint = urgentPoint;
 	}
 
 

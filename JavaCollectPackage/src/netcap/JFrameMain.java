@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 
 
 
+
+
 import javax.swing.JSeparator;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
@@ -15,11 +17,14 @@ import javax.swing.JMenuBar;
 
 
 
+
+
 import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.table.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import netcap.*;
 import jpcap.*;
@@ -35,7 +40,7 @@ public class JFrameMain extends javax.swing.JFrame implements ActionListener{
 
  
 		PacketDeal pd=new PacketDeal();
-		PacketDetailAna ana=new PacketDetailAna();
+		ShowPacketDetail sPD=new ShowPacketDetail();
 		
        private JMenuItem exitMenuItem;
 
@@ -228,7 +233,21 @@ public class JFrameMain extends javax.swing.JFrame implements ActionListener{
                      scrollPane= new JScrollPane(tabledisplay);
 
                      this.getContentPane().add( new JScrollPane(tabledisplay),BorderLayout.CENTER);
-
+                     //进行显示列表点击单行的事件监听
+                     tabledisplay.addMouseListener(new MouseAdapter() {
+                  	   @Override  public void mouseClicked(MouseEvent e) {
+                  		 
+                  		   int index=tabledisplay.getSelectedRow();
+                  		 String key=(String) tabledisplay.getValueAt(index, 0);
+                  		   System.out.println("index 1 "+index);
+                  		 sPD.showPacketDetail(pd.packetList.get(key), index);
+                  		/* System.out.println("////////////////////////////");
+                  		 System.out.println(pd.packetList.get(index).toString());
+                  		 System.out.println("////////////////////////////////");*/
+                  		  
+                  	   }
+                  		            
+                  	   });
                      
 
                      statusLabel=new JLabel("java抓包测试");
@@ -261,9 +280,6 @@ public class JFrameMain extends javax.swing.JFrame implements ActionListener{
 ////////////////////////////////////////////////////////////////////////test
               else if(cmd.equals("stop")){
             	  
-            	  /*ana.analyzePacket(pd.packetList.get(1),1);
-            	  ana.analyzePacket(pd.packetList.get(2),2);
-            	  ana.analyzePacket(pd.packetList.get(2),2);*/
                      captor.stopCapture();
 
               }
@@ -273,9 +289,11 @@ public class JFrameMain extends javax.swing.JFrame implements ActionListener{
                      System.exit(0);
 
               }
+           
 
        }
-
+       
+        
  
 //对捕获的数据包进行处理
        public void dealPacket( Packet packet )
@@ -285,9 +303,7 @@ public class JFrameMain extends javax.swing.JFrame implements ActionListener{
               try
 
               {
-            	  
-
-                     Vector r=new Vector();
+            	     Vector r=new Vector();
                      pd.simplePacketDeal(packet,r);
                                                     
 
@@ -300,9 +316,6 @@ public class JFrameMain extends javax.swing.JFrame implements ActionListener{
               catch( Exception e)
 
               {
-
-                     
-
               }
 
        }

@@ -1,5 +1,7 @@
 package model;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import jpcap.packet.*;
 
 public class MyEthernetPacket {
@@ -53,6 +55,19 @@ public class MyEthernetPacket {
 		return "MyEthernetPacket [destinationHwAddress=" + destinationHwAddress
 				+ ", sourceHwAddress=" + sourceHwAddress + ", type=" + type
 				+ "]";
+	}
+	
+	public DefaultMutableTreeNode showDetail(MyPacket myPacket){
+		MyEthernetPacket e=myPacket.getMyEthernetPacket();
+		if(e==null){
+			return null;
+		}
+		DefaultMutableTreeNode ethernetTree = new DefaultMutableTreeNode("Ethernet II, Src: "+
+	e.getSourceHwAddress()+", Dst: "+e.getDestinationHwAddress());
+		ethernetTree.add(new DefaultMutableTreeNode("Destination: "+e.getDestinationHwAddress()));
+		ethernetTree.add(new DefaultMutableTreeNode("Source: "+e.getSourceHwAddress()));
+		ethernetTree.add(new DefaultMutableTreeNode("Type: "+e.getType()));
+		return ethernetTree;
 	}
 
 	public String getDestinationHwAddress() {

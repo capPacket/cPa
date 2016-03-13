@@ -1,5 +1,7 @@
 package model;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import jpcap.packet.IPPacket;
 import jpcap.packet.Packet;
 
@@ -97,10 +99,24 @@ public class MyIPPacket {
 				+ ", offset=" + offset + "]";
 	}
 
-	/*
-	 * public int getCheckSum() { return checkSum; } public void setCheckSum(int
-	 * checkSum) { this.checkSum = checkSum; }
-	 */
+	public DefaultMutableTreeNode showDetail(MyPacket myPacket){
+		MyIPPacket ip=myPacket.getMyIPPacket();
+		if(ip==null){
+			return null;
+		}
+		DefaultMutableTreeNode ipTree = new DefaultMutableTreeNode("Internet Protocol Version "+ip.getVersion()
+	+" ,Src: "+ip.getSAddress()+", Dst: "+ip.getDAddress());
+		ipTree.add(new DefaultMutableTreeNode("Version: "+ip.getVersion()));
+		ipTree.add(new DefaultMutableTreeNode("Length: "+ip.getIPLength()));
+		ipTree.add(new DefaultMutableTreeNode("Identification: "+ip.getIdent()));
+		ipTree.add(new DefaultMutableTreeNode("Flags: fragment: "+ip.is_dont+" more fragments: "+ip.moreFlag));
+		ipTree.add(new DefaultMutableTreeNode("Flagment offset: "+ip.getOffset()));
+		ipTree.add(new DefaultMutableTreeNode("Time to live: "+ip.getHopLimit()));
+		ipTree.add(new DefaultMutableTreeNode("Protocol: "+ip.getProtocol()));
+		ipTree.add(new DefaultMutableTreeNode("Source: "+ip.getSAddress()));
+		ipTree.add(new DefaultMutableTreeNode("Destination: "+ip.getDAddress()));
+		return ipTree;
+	}
 	public String getDAddress() {
 		return DAddress;
 	}

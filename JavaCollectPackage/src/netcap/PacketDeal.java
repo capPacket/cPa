@@ -2,17 +2,18 @@ package netcap;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Vector;
 
 import model.*;
 import jpcap.packet.*;
 
 public class PacketDeal {
-	ArrayList<Packet> packetList = new ArrayList<Packet>();// 用来存储所有捕获的数据包
+	Hashtable<String,Packet> packetList = new Hashtable<String,Packet>();// 用来存储所有捕获的数据包
 	
 
 	public void simplePacketDeal(Packet packet, Vector r) {
-		packetList.add(packet);
+		
 		if (packet instanceof ARPPacket) {
 			simpleARPPacketDeal(packet, r);
 		} else {
@@ -33,6 +34,7 @@ public class PacketDeal {
 
 		Timestamp timestamp = new Timestamp((packet.sec * 1000)
 				+ (packet.usec / 1000));
+		packetList.put(timestamp.toString(), packet);
 		r.addElement(timestamp.toString()); // 数据报时间
 		r.addElement(arp.getSenderHardwareAddress().toString()); // 源MAC地址
 
@@ -65,6 +67,7 @@ public class PacketDeal {
 
 		Timestamp timestamp = new Timestamp((packet.sec * 1000)
 				+ (packet.usec / 1000));
+		packetList.put(timestamp.toString(), packet);
 		IPPacket ip = (IPPacket) packet;
 	
 
